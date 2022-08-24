@@ -3,18 +3,18 @@ const config = require('../utils/config')
 const logger = require('../utils/logger')
 
 const blogSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
+  title: String,
+  author: String,
+  url: String,
+  likes: Number
 })
 
 blogSchema.set('toJSON', {
-    transform: (_document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject._v
-    }
+  transform: (_document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject._v
+  }
 })
 
 module.exports = mongoose.model('Blog', blogSchema)
