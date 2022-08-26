@@ -211,7 +211,7 @@ describe('finding author that has most of blogs', () => {
   })
 })
 
-describe('finding author that has the most of likes', () => {
+/*describe('finding author that has the most of likes', () => {
   const blogs = [
     {
       _id: '5a422ba71b54a676234d17fb',
@@ -271,4 +271,4 @@ describe('finding author that has the most of likes', () => {
     })
   })
 
-})
+})*/
