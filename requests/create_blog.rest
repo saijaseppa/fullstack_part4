@@ -1,0 +1,10 @@
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlaWpvbmEiLCJpZCI6IjYzMGRlY2Y2ZDY2NWMwMmQ5MWMxNmQ2MiIsImlhdCI6MTY2MTg2MjM4MiwiZXhwIjoxNjYxODY1OTgyfQ.Z3cPrj-SsUTmlwb95v6HrO9N3QdTy357YhJukGGOW8A
+
+{
+"author": "uuusi",
+"title": "Kukkis",
+"url": "salasana",
+"likes": 2
+}
