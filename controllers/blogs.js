@@ -4,14 +4,6 @@ const User = require('../models/user')
 const helper = require('../tests/test_helper')
 const jwt = require('jsonwebtoken')
 
-/*const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}*/
-
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
     .find({}).populate('user', {username: 1, name: 1})
@@ -27,11 +19,12 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  /*const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!request.token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  }*/
+  //const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   const blog = new Blog({
     author:body.author,
@@ -60,6 +53,28 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
+  /*const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }*/
+  //Tokenin perusteella haettu user
+  //const user = await User.findById(decodedToken.id)
+  const user = request.user
+  console.log('user requestista', user);
+  
+  //Haettu blogi
+  const blog = await Blog.findById(request.params.id)
+  console.log('blogi requestista', blog);
+  
+
+  console.log('blogin user', blog.user.id.toString());
+  console.log('userin id', user.id.toString());
+
+  if (blog.user._id.toString() !== user._id.toString()) {
+    return response.status(401).json({ error: 'users can remove only ther own blogs' })
+  }
+
+  //TOIMIIKO???? pitäisi.
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
 })
@@ -69,7 +84,6 @@ blogsRouter.put('/:id', async (request, response) => {
   const body = request.body;
 
   const blog = {
-    //id: body.id,
     author: body.author,
     title: body.title,
     url: body.url,
